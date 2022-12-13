@@ -1,2 +1,2 @@
-# lightweight-k8s-benchmarking
+# Lightweight K8s Distribution Benchmarking
 Experiment data
