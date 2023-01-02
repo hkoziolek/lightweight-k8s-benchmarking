@@ -4,14 +4,14 @@
 This repository provides measurements and data from several experiments benchmarking the lightweight Kubernetes distributions MicroK8s, k3s, k0s, and MicroShift. A full report on these experiments is submitted as a research paper for peer review. The repository covers:
 - ansible-playbooks: for starting the K8s distributions and initiating k-bench experiments
 - experiment-data: raw data captured in  experiments (e.g., CPU utilizations, throughputs)
-- k-bench: the configuration files for setting up k-bench
+- k-bench: the configuration files for setting up the benchmarking tool k-bench
 - netdata-conf: the configuration of the monitoring tool netdata 
 - r-scripts: various scripts to process and visualize the raw data
 
-Replicating the full experiment setup requires five Microsoft Azure VMs, as described [further below](#full-experiment-setup). To get a minimal test running locally, we also [decribe a minimal experiment setup](#minimal-experiment-setup) on a single node for initial testing, or checking the k-bench configurations. Notice that neither the k8s distributions, nor the testing tools have be developed by us, this repository merely provides the configurations to carry out different performance experiments with the existing software.
+Replicating the full experiment setup requires five Microsoft Azure VMs, as described [further below](#full-experiment-setup). To get a minimal test running locally, we also [decribe a minimal experiment setup](#minimal-experiment-setup) on a single Linux node for initial testing, or checking the k-bench configurations. Notice that neither the k8s distributions, nor the benchmarking tool k-bench have be developed by us, this repository merely provides the configurations to carry out different performance experiments with the existing software.
 
 ## Minimal Experiment Setup
-You need a Linux host (tested with Ubuntu 20.04), install k3s, install k-bench, and then run k-bench, which takes overall around 10 minutes. First install k3s (approx. 3 minutes):
+You need a Linux host (tested with Ubuntu 20.04), install k3s, install k-bench, and then run k-bench, which takes overall around 10 min. First install k3s (approx. 3 min):
 
 ````
 curl -sfL https://get.k3s.io | sh -
@@ -36,7 +36,7 @@ kbench
 ````
 Wait for the benchmark run to complete. You can then inspect the file "kbench.log" created in the same directory for benchmark results. The different metrics that are included in this file are explained on the [K-bench website](https://github.com/vmware-tanzu/k-bench). You can then try our [K-bench configurations](k-bench/Readme.md) by running:
 ````
-kbench -benchconfig filepath
+kbench -benchconfig <desired filepath>
 ````
 
 ## Full Experiment Setup
@@ -131,7 +131,7 @@ sudo ./install.sh
 ````
 You can then try our [K-bench configurations](k-bench/Readme.md) by running the following, replacing \<filepath\> with the folder of the desired benchmark configuration:
 ````
-kbench -benchconfig <filepath>
+kbench -benchconfig <desired filepath>
 ````
 
 After editing our [ansible playbooks](ansible-playbooks) changing all "TODOs" to your local settings and editing the inventory file to your IP adresses, you can also run these to start experiments:
