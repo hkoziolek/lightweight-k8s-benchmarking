@@ -1,0 +1,6 @@
+k8s,metrics,medians,mins,maxs
+MicroK8s,create,303.452,69.209,681.12103
+MicroK8s,get,3.98,2.502,10.594
+MicroK8s,list,4.185,2.995,44.888
+MicroK8s,update,192.19699,16.509,416.035
+MicroK8s,delete,179.03299,11.195,868.76196

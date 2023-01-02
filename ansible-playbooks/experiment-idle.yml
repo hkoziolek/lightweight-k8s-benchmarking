@@ -1,0 +1,48 @@
+- name: Test
+  hosts: localhost
+  gather_facts: no   
+  vars:
+    EXPERIMENT_ID: "TODO"
+    DESCRIPTION: "TODO"
+  tasks:
+  - name: Get current timestamp
+    shell: "date +%s"
+    register: ts_exp_start
+
+  - name: Print current timestamp
+    debug:
+     msg: "Timestamp: {{ ts_exp_start.stdout }}"
+
+  - set_fact:
+      db_statement1: "db.experiments.insert({ experimentID: {{EXPERIMENT_ID}}, description: \"{{DESCRIPTION}}\" , timestamp: {{ item }}})"
+    with_items: "{{ ts_exp_start.stdout }}"
+
+  - name: Print current timestamp
+    debug:
+     msg: "Db_statement1: {{ db_statement1 }}"
+
+  - name: Insert experiment start timestamp
+    community.mongodb.mongodb_shell:
+      login_user: TODO
+      login_password: TODO
+      db: "netdata"
+      eval: "{{ db_statement1 }}"
+
+  - name: Waiting 5 minutes
+    pause:
+      seconds: 300
+
+  - name: Get current timestamp
+    shell: "date +%s"
+    register: ts_exp_end
+
+  - set_fact:
+      db_statement2: "db.experiments.insert({ experimentID: {{EXPERIMENT_ID}}, description: \"{{DESCRIPTION}}\" , timestamp: {{ item }}})"
+    with_items: "{{ ts_exp_end.stdout }}"    
+
+  - name: Insert experiment end timestamp
+    community.mongodb.mongodb_shell:
+      login_user: TODO
+      login_password: TODO
+      db: "netdata"
+      eval: "{{ db_statement2 }}"

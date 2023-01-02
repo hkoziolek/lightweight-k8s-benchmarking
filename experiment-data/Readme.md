@@ -1,0 +1,1 @@
+This folder contains the raw data from the experiments. Folder are named according to the "configuration name" used in k-bench. Tests done with k-bench contain subfolders with the kbench.log file providing the benchmark results.

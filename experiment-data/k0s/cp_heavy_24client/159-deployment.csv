@@ -1,0 +1,6 @@
+k8s,metrics,medians,mins,maxs
+k0s,create,65.908,24.809,116.888
+k0s,get,5.223,1.731,39.585
+k0s,list,9.966,3.539,34.202
+k0s,update,48.382,14.621,175.286
+k0s,delete,65.413,5.407,527.594

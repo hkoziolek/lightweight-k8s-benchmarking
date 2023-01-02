@@ -1,0 +1,82 @@
+- name: Deploy MicroK8s
+  hosts: AllHosts
+  become: True
+  gather_facts: no   
+  tasks:
+  - name: Packages snapd and containerd are installed
+    apt:
+      pkg: 
+        - snapd
+        - containerd
+      update_cache: yes
+  
+  - name: MicroK8s is installed on all nodes
+    snap:
+      name: microk8s
+      classic: yes
+      state: present
+  
+  - name: MicroK8s Master is started
+    command: microk8s start
+    become: True
+    ignore_errors: yes
+    when: "inventory_hostname in groups['MasterNodes']"
+  
+  - name: Microk8s start is acknowledged
+    command: microk8s status --wait-ready
+    become: True
+    ignore_errors: yes
+    when: "inventory_hostname in groups['MasterNodes']"
+  
+  - name: Microk8s masternode start is acknowledged
+    command: microk8s kubectl get nodes
+    become: True
+    register: mK8s_kubectl_get_nodes
+    until: (mK8s_kubectl_get_nodes.stdout | regex_findall('NotReady') | length) == 0 and (mK8s_kubectl_get_nodes.stdout | regex_findall('Ready') | length) >= 1
+    retries: 9999
+    delay: 1
+    delegate_to: Master
+    run_once: true
+    tags: platform
+  
+  # - name: Waited 5 sec.
+  #   pause:
+  #     seconds: 5
+
+  - name: MicroK8s master is elected
+    command: microk8s.add-node
+    register: add_node_string
+    become: True
+    with_items: "{{ groups['WorkerNodes'] }}"
+    when: "inventory_hostname in groups['MasterNodes']"
+
+  - set_fact:
+      conn_strings: "{{ (conn_strings) | default([]) }} + {{ [item.stdout_lines[4]] }}"
+    with_items: "{{ add_node_string.results }}"
+    when: "inventory_hostname in groups['MasterNodes']"
+
+  - name: Worker nodes are joined
+    shell: |
+      {{ item.0 }}
+    become: True
+    delegate_to: "{{ item.1 }}"
+    throttle: 1
+    with_together:
+      - "{{ conn_strings }}"
+      - "{{ groups['WorkerNodes'] }}"
+    when: "inventory_hostname in groups['MasterNodes']"
+  
+  - name: Check nodes for ready states
+    command: microk8s kubectl get nodes
+    become: True
+    register: microk8s_kubectl_get_nodes
+    until: (microk8s_kubectl_get_nodes.stdout | regex_findall('NotReady') | length) == 0 and (microk8s_kubectl_get_nodes.stdout | regex_findall('Ready') | length) == 2
+    retries: 9999
+    delay: 1
+    delegate_to: Master
+    run_once: true
+  
+  - name: MicroK8s kubernetes config is saved
+    shell: microk8s config > ~/.kube/config
+    when: "inventory_hostname in groups['MasterNodes']"
+

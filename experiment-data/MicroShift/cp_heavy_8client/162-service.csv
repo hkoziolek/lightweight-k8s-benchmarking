@@ -1,0 +1,6 @@
+k8s,metrics,medians,mins,maxs
+MicroShift,create,122.681,16.29,268.88
+MicroShift,get,2.185,1.856,3.094
+MicroShift,list,2.529,2.162,3.575
+MicroShift,update,13.176,4.609,27.933
+MicroShift,delete,185.203,89.841,368.324

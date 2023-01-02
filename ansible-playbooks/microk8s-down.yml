@@ -1,0 +1,16 @@
+- name: Deploy MicroK8s
+  hosts: AllHosts
+  become: True
+  gather_facts: no   
+  tasks:
+  - name: MicroK8s Master is stopped
+    command: microk8s stop
+    become: True
+    ignore_errors: yes
+    when: "inventory_hostname in groups['MasterNodes']"
+  
+  - name: Microk8s Workers are ordered to leave cluster
+    command: microk8s leave
+    become: True
+    ignore_errors: yes
+    when: "inventory_hostname in groups['WorkerNodes']"

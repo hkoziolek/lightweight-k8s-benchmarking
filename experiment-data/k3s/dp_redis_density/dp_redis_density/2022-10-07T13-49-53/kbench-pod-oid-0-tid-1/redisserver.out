@@ -1,0 +1,57 @@
+3350:C 07 Oct 2022 11:52:05.242 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+3350:C 07 Oct 2022 11:52:05.242 # Redis version=6.0.16, bits=64, commit=00000000, modified=0, pid=3350, just started
+3350:C 07 Oct 2022 11:52:05.242 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf
+3350:M 07 Oct 2022 11:52:05.244 * Running mode=standalone, port=6379.
+3350:M 07 Oct 2022 11:52:05.244 # Server initialized
+3350:M 07 Oct 2022 11:52:05.244 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command 'echo madvise > /sys/kernel/mm/transparent_hugepage/enabled' as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled (set to 'madvise' or 'never').
+3350:M 07 Oct 2022 11:52:05.245 * Ready to accept connections
+3350:M 07 Oct 2022 11:53:06.101 * 10000 changes in 60 seconds. Saving...
+3350:M 07 Oct 2022 11:53:06.102 * Background saving started by pid 3367
+3367:C 07 Oct 2022 11:53:06.137 * DB saved on disk
+3367:C 07 Oct 2022 11:53:06.139 * RDB: 1 MB of memory used by copy-on-write
+3350:M 07 Oct 2022 11:53:06.217 * Background saving terminated with success
+3350:M 07 Oct 2022 11:54:07.026 * 10000 changes in 60 seconds. Saving...
+3350:M 07 Oct 2022 11:54:07.027 * Background saving started by pid 3368
+3368:C 07 Oct 2022 11:54:07.054 * DB saved on disk
+3368:C 07 Oct 2022 11:54:07.061 * RDB: 1 MB of memory used by copy-on-write
+3350:M 07 Oct 2022 11:54:07.128 * Background saving terminated with success
+3350:M 07 Oct 2022 11:55:08.053 * 10000 changes in 60 seconds. Saving...
+3350:M 07 Oct 2022 11:55:08.053 * Background saving started by pid 3369
+3369:C 07 Oct 2022 11:55:08.090 * DB saved on disk
+3369:C 07 Oct 2022 11:55:08.092 * RDB: 2 MB of memory used by copy-on-write
+3350:M 07 Oct 2022 11:55:08.165 * Background saving terminated with success
+3350:M 07 Oct 2022 11:56:09.001 * 10000 changes in 60 seconds. Saving...
+3350:M 07 Oct 2022 11:56:09.001 * Background saving started by pid 3370
+3370:C 07 Oct 2022 11:56:09.042 * DB saved on disk
+3370:C 07 Oct 2022 11:56:09.045 * RDB: 1 MB of memory used by copy-on-write
+3350:M 07 Oct 2022 11:56:09.113 * Background saving terminated with success
+3350:M 07 Oct 2022 11:57:10.076 * 10000 changes in 60 seconds. Saving...
+3350:M 07 Oct 2022 11:57:10.077 * Background saving started by pid 3371
+3371:C 07 Oct 2022 11:57:10.101 * DB saved on disk
+3371:C 07 Oct 2022 11:57:10.102 * RDB: 2 MB of memory used by copy-on-write
+3350:M 07 Oct 2022 11:57:10.182 * Background saving terminated with success
+3350:M 07 Oct 2022 11:58:11.074 * 10000 changes in 60 seconds. Saving...
+3350:M 07 Oct 2022 11:58:11.074 * Background saving started by pid 3372
+3372:C 07 Oct 2022 11:58:11.082 * DB saved on disk
+3372:C 07 Oct 2022 11:58:11.084 * RDB: 0 MB of memory used by copy-on-write
+3350:M 07 Oct 2022 11:58:11.181 * Background saving terminated with success
+3350:M 07 Oct 2022 11:59:12.081 * 10000 changes in 60 seconds. Saving...
+3350:M 07 Oct 2022 11:59:12.082 * Background saving started by pid 3373
+3373:C 07 Oct 2022 11:59:12.136 * DB saved on disk
+3373:C 07 Oct 2022 11:59:12.137 * RDB: 2 MB of memory used by copy-on-write
+3350:M 07 Oct 2022 11:59:12.196 * Background saving terminated with success
+3350:M 07 Oct 2022 12:00:13.080 * 10000 changes in 60 seconds. Saving...
+3350:M 07 Oct 2022 12:00:13.081 * Background saving started by pid 3374
+3374:C 07 Oct 2022 12:00:13.152 * DB saved on disk
+3374:C 07 Oct 2022 12:00:13.157 * RDB: 2 MB of memory used by copy-on-write
+3350:M 07 Oct 2022 12:00:13.203 * Background saving terminated with success
+3350:M 07 Oct 2022 12:01:14.067 * 10000 changes in 60 seconds. Saving...
+3350:M 07 Oct 2022 12:01:14.070 * Background saving started by pid 3375
+3375:C 07 Oct 2022 12:01:14.102 * DB saved on disk
+3375:C 07 Oct 2022 12:01:14.105 * RDB: 0 MB of memory used by copy-on-write
+3350:M 07 Oct 2022 12:01:14.201 * Background saving terminated with success
+3350:M 07 Oct 2022 12:02:15.041 * 10000 changes in 60 seconds. Saving...
+3350:M 07 Oct 2022 12:02:15.042 * Background saving started by pid 3376
+3376:C 07 Oct 2022 12:02:15.050 * DB saved on disk
+3376:C 07 Oct 2022 12:02:15.051 * RDB: 0 MB of memory used by copy-on-write
+3350:M 07 Oct 2022 12:02:15.142 * Background saving terminated with success

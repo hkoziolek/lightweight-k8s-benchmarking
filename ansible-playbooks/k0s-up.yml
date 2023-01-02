@@ -1,0 +1,71 @@
+- name: Deploy k0s
+  hosts: AllHosts
+  become: True
+  gather_facts: no   
+  tasks:
+  # - name: k0s is installed on all nodes
+  #   shell: curl -sSLf https://get.k0s.sh | sudo sh
+  
+  # - name: k0s Master is installed
+  #   shell: k0s install controller
+  #   become: True
+  #   ignore_errors: yes
+  #   when: "inventory_hostname in groups['MasterNodes']"
+
+  - name: k0s Master is installed
+    shell: k0s start
+    become: True
+    ignore_errors: yes
+    when: "inventory_hostname in groups['MasterNodes']"
+
+  # - name: k0s masternode start is acknowledged
+  #   command: k0s kubectl get nodes
+  #   become: True
+  #   register: k0s_kubectl_get_nodes
+  #   until: (k0s_kubectl_get_nodes.stdout | regex_findall('NotReady') | length) == 0 and (k0s_kubectl_get_nodes.stdout | regex_findall('Ready') | length) >= 1
+  #   retries: 9999
+  #   delay: 1
+  #   delegate_to: Master
+  #   run_once: true
+
+  - name: Get join token
+    shell: k0s token create --role=worker
+    register: token
+    become: True
+    delegate_to: Master
+    when: "inventory_hostname in groups['MasterNodes']"
+
+  # - name: Print token
+  #   debug: 
+  #     msg: "token: {{ item }}"
+  #   with_items: "{{ token.stdout }}"
+  #   delegate_to: Master
+  #   when: "inventory_hostname in groups['MasterNodes']"
+
+  - name: Save token to file on worker nodes
+    ansible.builtin.copy:
+      content="{{item}}"
+      dest="/home/abb/tokenfile"
+    with_items: "{{ hostvars['Master']['token'].stdout }}"
+    when: "inventory_hostname in groups['WorkerNodes']"
+
+  - name: Worker nodes are joined
+    shell: "k0s install worker --token-file /home/abb/tokenfile"
+    become: True
+    throttle: 1
+    when: "inventory_hostname in groups['WorkerNodes']"
+  
+  # - name: Check nodes for ready states
+  #   command: k0s kubectl get nodes
+  #   become: True
+  #   register: k0s_kubectl_get_nodes
+  #   until: (k0s_kubectl_get_nodes.stdout | regex_findall('NotReady') | length) == 0 and (k0s_kubectl_get_nodes.stdout | regex_findall('Ready') | length) >= 2
+  #   retries: 9999
+  #   delay: 1
+  #   delegate_to: Master
+  #   run_once: true
+  
+  # - name: MicroK8s kubernetes config is saved
+  #   shell: microk8s config > ~/.kube/config
+  #   when: "inventory_hostname in groups['MasterNodes']"
+
