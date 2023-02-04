@@ -97,7 +97,7 @@ Edit the file to look like so:
     # send charts matching = *
     # send hosts matching = localhost *
 ````
-Then restart netdata and check if the exporting is enabled:
+If you are not running mongodb on the localhost, then adjust the hostname accordingly, and also add username and password (also see [MongoDB Connection String](https://www.mongodb.com/docs/manual/reference/connection-string/)). Then restart netdata and check if the exporting is enabled:
 ````
 sudo systemctl restart netdata
 grep EXPORTING /var/log/netdata/error.log

@@ -1,6 +1,6 @@
 - name: K-Bench Experiment
   hosts: Master
-  remote_user: abb
+  remote_user: TODO
   gather_facts: yes   
   vars:
     EXPERIMENT_ID: "TODO"
@@ -33,7 +33,7 @@
       eval: "{{ db_statement1 }}"
 
   - name: Running experiment
-    shell: "/home/abb/k-bench/run2.sh -r \"{{EXPERIMENT_ID}}\" -t \"{{EXPERIMENT_STRING}}\" -o \"/home/abb/data\""
+    shell: "~/k-bench/run2.sh -r \"{{EXPERIMENT_ID}}\" -t \"{{EXPERIMENT_STRING}}\" -o \"~/data\""
     ignore_errors: yes
     #become: True
   
