@@ -32,6 +32,9 @@ If your node is ready, then install [k-bench](https://github.com/vmware-tanzu/k-
 git clone https://github.com/vmware-tanzu/k-bench.git
 cd k-bench
 sudo ./install.sh
+````
+If the installation fails, try re-running it and answering all questions prompted with 'Y' for yes. If that still does not work, try install a newer version of Go, e.g., Go 1.18.1 as per [these instructions](https://www.cyberciti.biz/faq/how-to-install-gol-ang-on-ubuntu-linux/). After installation success, you can invoke the benchmark as follow:
+````
 kbench
 ````
 Wait for the benchmark run to complete. You can then inspect the file "kbench.log" created in the same directory for benchmark results. The different metrics that are included in this file are explained on the [K-bench website](https://github.com/vmware-tanzu/k-bench). You can then try our [K-bench configurations](k-bench/Readme.md) by running:
@@ -54,7 +57,7 @@ To replicate the experiments you need to install MongoDB, Netdata, K-Bench, R, a
 wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
 sudo apt-get update
-sudo apt-get install -y mongodb-org libmongoc-1.0-0 ibmongoc-dev libbson-dev libbson-1.0-0 
+sudo apt-get install -y mongodb-org libmongoc-1.0-0 libmongoc-dev libbson-dev libbson-1.0-0 
 sudo systemctl start mongod
 ````
 Then [build Netdata](https://learn.netdata.cloud/docs/agent/packaging/installer/methods/source) from source (required to activate the MongoDB exporter):
@@ -101,7 +104,7 @@ grep EXPORTING /var/log/netdata/error.log
 ````
 You can check in MongoDB if the netdata is actually exporting values:
 ````
-mongsh
+mongosh
 show dbs
 use netdata
 db.netdata_collection.find()
@@ -134,8 +137,9 @@ You can then try our [K-bench configurations](k-bench/Readme.md) by running the 
 kbench -benchconfig <desired filepath>
 ````
 
-After editing our [ansible playbooks](ansible-playbooks) changing all "TODOs" to your local settings and editing the inventory file to your IP adresses, you can also run these to start experiments:
+After editing our [ansible playbooks](ansible-playbooks) changing all "TODOs" to your local settings and editing the inventory file to your IP adresses, you can also run these *on the experiment coordinator node* (e.g., pluto) to start experiments:
 ````
+sudo apt install python3-pip
 python3 -m pip install --user ansible
 ansible --version
 ansible-galaxy collection install community.mongodb
@@ -144,7 +148,7 @@ ansible-playbook -i inventory experiment-idle.yml
 ansible-playbook -i inventory experiment-kbench.yml
 ````
 
-The playbooks write timestamps for the experiments into MongoDB, which are then used by R-scripts to query the database for the data of a specific experiment. If you want to use our r-scripts for statistics/visualization, then [install R](https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html):
+The playbooks require the ansible collection community.mongodb, since they write timestamps for the experiments into MongoDB, which are then used by R-scripts to query the database for the data of a specific experiment. If you want to use our r-scripts for statistics/visualization, then [install R](https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html):
 ````
 sudo apt install --no-install-recommends software-properties-common dirmngr
 wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
@@ -166,11 +170,14 @@ You can use the following instructions to set up minimal installations of the di
 sudo snap install microk8s --classic
 microk8s status --wait-ready
 ````
+To onboard additional worker nodes, refer to the [MicroK8s documentation](https://microk8s.io/docs/clustering).
 
 [k3s](https://docs.k3s.io/quick-start):
 ````
 curl -sfL https://get.k3s.io | sh -
 ````
+To onboard additional worker nodes, refer to the [k3s documentation](https://docs.k3s.io/quick-start).
+
 
 [k0s](https://docs.k0sproject.io/v1.21.2+k0s.0/install/):
 ````
@@ -178,6 +185,7 @@ curl -sSLf https://get.k0s.sh | sudo sh
 sudo k0s install controller --single
 sudo k0s start
 ````
+To onboard additional worker nodes, refer to the [k0s documentation](https://docs.k0sproject.io/v1.26.0+k0s.0/k0s-multi-node/).
 
 [MicroShift](https://microshift.io/docs/getting-started/) (needs RHEL 8.6)
 ````
